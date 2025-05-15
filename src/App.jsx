@@ -31,34 +31,6 @@ const pageTransition = {
 const AppContent = () => {
   const { currentView, theme, databaseInitialized, dataLoaded } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(true);
-  const [isPWA, setIsPWA] = useState(false);
-
-  useEffect(() => {
-    // Rileva se l'app è in modalità PWA
-    const isStandalone = window.navigator.standalone || 
-                       (window.matchMedia('(display-mode: standalone)').matches);
-    setIsPWA(isStandalone);
-    
-    // Aggiungi classe al body se in modalità PWA
-    if (isStandalone) {
-      document.body.classList.add('ios-pwa-mode');
-      
-      // Fix per viewport in iOS
-      const fixIOSHeight = () => {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-      };
-      
-      window.addEventListener('resize', fixIOSHeight);
-      window.addEventListener('orientationchange', fixIOSHeight);
-      fixIOSHeight();
-      
-      return () => {
-        window.removeEventListener('resize', fixIOSHeight);
-        window.removeEventListener('orientationchange', fixIOSHeight);
-      };
-    }
-  }, []);
 
   useEffect(() => {
     if (databaseInitialized && dataLoaded) {
@@ -75,7 +47,7 @@ const AppContent = () => {
   const renderView = () => {
     switch (currentView) {
       case 'dashboard':
-        return <Dashboard isPWA={isPWA} />;
+        return <Dashboard />;
       case 'history':
         return <TransactionHistory />;
       case 'future-expenses':
@@ -91,7 +63,7 @@ const AppContent = () => {
       case 'savings':
         return <SavingsSetup />;
       default:
-        return <Dashboard isPWA={isPWA} />;
+        return <Dashboard />;
     }
   };
 
@@ -101,14 +73,13 @@ const AppContent = () => {
 
   return (
     <div
-      className={`app-container ${isPWA ? 'pwa-mode' : ''}`}
+      className="app-container"
       style={{
         backgroundColor: theme?.background || '#F8FAFF',
-        minHeight: isPWA ? 'calc(var(--vh, 1vh) * 100)' : '100vh',
+        minHeight: '100vh',
         position: 'relative',
         overflow: 'hidden',
-        paddingTop: 'env(safe-area-inset-top)', // Gestione safe area
-        paddingBottom: isPWA ? 'env(safe-area-inset-bottom)' : '0' // Padding per iOS
+        paddingTop: 'env(safe-area-inset-top)' // Per gestire la safe area
       }}
     >
       {/* Contenitore principale con animazioni per le transizioni tra pagine */}
@@ -122,7 +93,7 @@ const AppContent = () => {
           transition={pageTransition}
           style={{
             height: '100%',
-            paddingBottom: isPWA ? '160px' : '80px', // Valore fisso più alto per PWA
+            paddingBottom: '80px', // Spazio base per la navigation bar
           }}
         >
           {renderView()}
@@ -130,7 +101,7 @@ const AppContent = () => {
       </AnimatePresence>
 
       {/* Navigation bar fissa in basso */}
-      <Navigation isPWA={isPWA} />
+      <Navigation />
     </div>
   );
 };
