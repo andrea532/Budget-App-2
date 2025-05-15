@@ -441,9 +441,10 @@ const Dashboard = () => {
       animate={{ opacity: 1 }}
       style={{ 
         paddingBottom: '120px',
+        paddingTop: 'env(safe-area-inset-top)',
         background: `linear-gradient(160deg, #151620 0%, ${theme.background} 100%)`,
         minHeight: '100vh',
-        position: 'absolute', // Aggiunti per estendere al full screen
+        position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
@@ -451,22 +452,24 @@ const Dashboard = () => {
         overflowX: 'hidden'
       }}
     >
+      {/* Continua con il resto del componente... */}
       {/* Savings Overlay */}
       <SavingsOverlay isOpen={showSavingsOverlay} onClose={() => setShowSavingsOverlay(false)} />
 
+      
       {/* Header con data, streak e saldo mensile */}
-      <motion.div 
-        className="header"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        style={{
-          padding: '20px 16px',
-          paddingTop: '50px', // Aumentato per dare spazio alla status bar
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}
-      >
+<motion.div 
+  className="header"
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+  style={{
+    padding: '20px 16px',
+    paddingTop: '16px', // Modificato per non aggiungere spazio extra
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }}
+>
         <div>
           <p style={{ color: theme.textSecondary, fontSize: '14px' }}>
             {new Date().toLocaleDateString('it-IT', { 
@@ -733,7 +736,7 @@ const Dashboard = () => {
           left: '0',
           right: '0',
           padding: '0 16px',
-          zIndex: 20
+          zIndex: 1000
         }}
       >
         <div style={{ 
