@@ -725,21 +725,20 @@ const Dashboard = () => {
         </motion.div>
       )}
 
-     {/* Fixed Action Buttons */}
-      <motion.div
-        initial={{ y: 100 }}
-        animate={{ y: 0 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="fixed-action-buttons"
-        style={{
-          position: 'fixed',
-          bottom: 'calc(85px + env(safe-area-inset-bottom))',
-          left: '0',
-          right: '0',
-          padding: '0 16px',
-          zIndex: 20
-        }}
-      >
+     <motion.div
+  initial={{ y: 100 }}
+  animate={{ y: 0 }}
+  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+  className="fixed-action-buttons"
+  style={{
+    position: 'fixed',
+    bottom: '160px', // Valore fisso molto più alto
+    left: '0',
+    right: '0',
+    padding: '0 16px',
+    zIndex: 20
+  }}
+>
         <div style={{ 
           maxWidth: '428px',
           margin: '0 auto',
