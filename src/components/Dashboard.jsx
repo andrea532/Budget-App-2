@@ -283,7 +283,7 @@ const RealisticBattery = ({ day, amount, maxAmount = 200, delay }) => {
   );
 };
 
-const Dashboard = ({ isPWA }) => {
+const Dashboard = () => {
   const { 
     theme, 
     categories, 
@@ -440,7 +440,7 @@ const Dashboard = ({ isPWA }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       style={{ 
-        paddingBottom: isPWA ? 'calc(200px + env(safe-area-inset-bottom))' : '120px',
+        paddingBottom: '120px',
         paddingTop: 'env(safe-area-inset-top)',
         background: `linear-gradient(160deg, #151620 0%, ${theme.background} 100%)`,
         minHeight: '100vh',
@@ -452,7 +452,6 @@ const Dashboard = ({ isPWA }) => {
         overflowX: 'hidden'
       }}
     >
-      {/* Continua con il resto del componente... */}
       {/* Savings Overlay */}
       <SavingsOverlay isOpen={showSavingsOverlay} onClose={() => setShowSavingsOverlay(false)} />
 
@@ -724,147 +723,76 @@ const Dashboard = ({ isPWA }) => {
         </motion.div>
       )}
 
-      {/* Fixed Action Buttons - MODIFICATI PER PWA */}
-      {isPWA ? (
-        /* Versione per PWA - pulsanti circolari a destra e più in alto */
-        <div 
-          style={{
-            position: 'absolute',
-            right: '20px',
-            bottom: '200px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-            zIndex: 1000
-          }}
-          className="pwa-action-buttons"
-        >
+      {/* MODIFICA QUI: Pulsanti di azione in fondo alla pagina */}
+      <div style={{ 
+        margin: '30px 16px 140px', // Margine in fondo molto grande
+        maxWidth: '428px',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+      }}>
+        <div style={{ 
+          display: 'flex', 
+          gap: '12px',
+          width: '100%'
+        }}>
           <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.02, boxShadow: '0 6px 20px rgba(46, 204, 113, 0.4)' }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => {
               setTransactionType('income');
               setNewTransaction({...newTransaction, amount: '', categoryId: 21, type: 'income'});
               setShowAddTransaction(true);
             }}
             style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: '50%',
+              flex: 1,
+              height: '56px',
+              borderRadius: '16px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
+              fontWeight: '600',
+              fontSize: '16px',
               border: 'none',
               background: `linear-gradient(135deg, ${theme.secondary} 0%, #25a25a 100%)`,
-              boxShadow: '0 8px 20px rgba(46, 204, 113, 0.4)'
+              boxShadow: '0 4px 15px rgba(46, 204, 113, 0.3)'
             }}
           >
-            <Plus size={28} />
+            <Plus size={22} style={{ marginRight: '8px' }} />
+            Entrata
           </motion.button>
 
           <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.02, boxShadow: '0 6px 20px rgba(255, 82, 82, 0.4)' }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => {
               setTransactionType('expense');
               setNewTransaction({...newTransaction, amount: '', categoryId: 1, type: 'expense'});
               setShowAddTransaction(true);
             }}
             style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: '50%',
+              flex: 1,
+              height: '56px',
+              borderRadius: '16px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
+              fontWeight: '600',
+              fontSize: '16px',
               border: 'none',
               background: `linear-gradient(135deg, ${theme.danger} 0%, #e03c3c 100%)`,
-              boxShadow: '0 8px 20px rgba(255, 82, 82, 0.4)'
+              boxShadow: '0 4px 15px rgba(255, 82, 82, 0.3)'
             }}
           >
-            <Minus size={28} />
+            <Minus size={22} style={{ marginRight: '8px' }} />
+            Spesa
           </motion.button>
         </div>
-      ) : (
-        /* Versione normale - pulsanti rettangolari in basso */
-        <motion.div
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="fixed-action-buttons"
-          style={{
-            position: 'fixed',
-            bottom: '90px',
-            left: '0',
-            right: '0',
-            padding: '0 16px',
-            zIndex: 20
-          }}
-        >
-          <div style={{ 
-            maxWidth: '428px',
-            margin: '0 auto',
-            display: 'flex', 
-            gap: '12px' 
-          }}>
-            <motion.button
-              whileHover={{ scale: 1.02, boxShadow: '0 6px 20px rgba(46, 204, 113, 0.4)' }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                setTransactionType('income');
-                setNewTransaction({...newTransaction, amount: '', categoryId: 21, type: 'income'});
-                setShowAddTransaction(true);
-              }}
-              style={{
-                flex: 1,
-                height: '56px',
-                borderRadius: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontWeight: '600',
-                fontSize: '16px',
-                border: 'none',
-                background: `linear-gradient(135deg, ${theme.secondary} 0%, #25a25a 100%)`,
-                boxShadow: '0 4px 15px rgba(46, 204, 113, 0.3)'
-              }}
-            >
-              <Plus size={22} style={{ marginRight: '8px' }} />
-              Entrata
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.02, boxShadow: '0 6px 20px rgba(255, 82, 82, 0.4)' }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                setTransactionType('expense');
-                setNewTransaction({...newTransaction, amount: '', categoryId: 1, type: 'expense'});
-                setShowAddTransaction(true);
-              }}
-              style={{
-                flex: 1,
-                height: '56px',
-                borderRadius: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontWeight: '600',
-                fontSize: '16px',
-                border: 'none',
-                background: `linear-gradient(135deg, ${theme.danger} 0%, #e03c3c 100%)`,
-                boxShadow: '0 4px 15px rgba(255, 82, 82, 0.3)'
-              }}
-            >
-              <Minus size={22} style={{ marginRight: '8px' }} />
-              Spesa
-            </motion.button>
-          </div>
-        </motion.div>
-      )}
+        
+        {/* Extra space per sicurezza */}
+        <div style={{ height: '80px' }}></div>
+      </div>
 
       {/* Bottom Sheet per aggiungere transazione */}
       <AnimatePresence>
@@ -1043,7 +971,7 @@ const Dashboard = ({ isPWA }) => {
                   flex: 1,
                   overflowY: 'auto',
                   padding: '16px',
-                  paddingBottom: `calc(32px + env(safe-area-inset-bottom))`
+                  paddingBottom: '32px'
                 }}>
                   {/* Importo Input con formattazione automatica */}
                   <div style={{ 
@@ -1272,10 +1200,6 @@ const Dashboard = ({ isPWA }) => {
         )}
       </AnimatePresence>
     </motion.div>
-  );
-};
-
-export default Dashboard;
   );
 };
 
