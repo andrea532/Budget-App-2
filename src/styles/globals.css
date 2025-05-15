@@ -17,35 +17,26 @@ body {
   background-color: #121218; /* Colore di base per assicurarsi che tutto lo sfondo sia scuro */
 }
 
-/* Fix per viewport su iOS */
-:root {
-  --vh: 1vh;  /* Sarà impostato via JavaScript */
-}
-
 #root {
   min-height: 100vh;
-  min-height: calc(var(--vh, 1vh) * 100);
   position: relative;
   overflow-x: hidden;
 }
 
-/* Prevent bounce scrolling on iOS */
+/* Prevent bounce scrolling su iOS */
 body {
   position: fixed;
   width: 100%;
   height: 100%;
-  height: calc(var(--vh, 1vh) * 100);
-  overflow: hidden;
 }
 
 #root {
   height: 100%;
-  height: calc(var(--vh, 1vh) * 100);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Mobile optimizations */
+/* Ottimizzazioni per mobile */
 input,
 select,
 textarea,
@@ -60,78 +51,23 @@ button {
   cursor: pointer;
 }
 
-/* Smooth transitions */
+/* Transizioni */
 * {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Safe area per iOS */
-.ios-pwa-mode {
-  /* Usa --vh invece di vh per calcolare altezze corrette */
-  height: calc(var(--vh, 1vh) * 100);
-  
-  /* Assicurati che la safe area sia rispettata */
+/* ELIMINATI TUTTI I FIX COMPLICATI PER PWA, MANTENIAMO SOLO QUESTI: */
+
+.navigation {
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+  z-index: 10000;
+}
+
+.app-container {
   padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
 }
 
-/* Soluzione per PWA su iOS */
-@media all and (display-mode: standalone) {
-  /* Per iPhone */
-  @supports (-webkit-touch-callout: none) {
-    /* Fix per i pulsanti di azione fissa e la navigazione */
-    .pwa-action-buttons {
-      bottom: 160px !important; /* Valore alto fisso */
-      padding-bottom: 20px !important;
-      z-index: 1000 !important;
-    }
-    
-    .pwa-navigation {
-      position: fixed !important;
-      bottom: 0 !important;
-      padding-bottom: env(safe-area-inset-bottom) !important;
-      z-index: 2000 !important;
-    }
-    
-    /* Spazio extra in fondo a tutti i contenitori */
-    .pwa-mode {
-      padding-bottom: calc(85px + env(safe-area-inset-bottom)) !important;
-    }
-    
-    /* Fix per lo scrolling */
-    .ios-pwa-mode #root {
-      position: fixed;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    
-    /* Spazio extra in fondo */
-    .dashboard:after {
-      content: "";
-      display: block;
-      height: 200px;
-    }
-  }
-}
-
-/* Spazio per l'home indicator su iPhone X e successivi */
-@supports (padding: env(safe-area-inset-bottom)) {
-  .navigation {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  
-  .fixed-action-buttons {
-    bottom: calc(85px + env(safe-area-inset-bottom));
-  }
-}
-
-/* Spazio extra per modal e bottom sheet su iOS */
-.ios-pwa-mode [style*="position: fixed"][style*="bottom: 0"] {
-  bottom: env(safe-area-inset-bottom) !important;
+/* Extra padding sotto i contenuti scrollabili */
+.dashboard {
+  padding-bottom: calc(120px + env(safe-area-inset-bottom));
 }
