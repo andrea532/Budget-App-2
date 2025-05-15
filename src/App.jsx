@@ -84,20 +84,22 @@ const AppContent = () => {
     >
       {/* Contenitore principale con animazioni per le transizioni tra pagine */}
       <AnimatePresence mode="wait">
-        <motion.div
-          key={currentView}
-          initial="initial"
-          animate="in"
-          exit="out"
-          variants={pageVariants}
-          transition={pageTransition}
-          style={{
-            height: '100%',
-            paddingBottom: 'calc(80px + env(safe-area-inset-bottom))', // Modificato per gestire la safe area
-          }}
-        >
-          {renderView()}
-        </motion.div>
+        // Nel file App.jsx, modifica il padding nella motion.div:
+
+<motion.div
+  key={currentView}
+  initial="initial"
+  animate="in"
+  exit="out"
+  variants={pageVariants}
+  transition={pageTransition}
+  style={{
+    height: '100%',
+    paddingBottom: '160px', // Valore fisso alto per garantire spazio sufficiente
+  }}
+>
+  {renderView()}
+</motion.div>
       </AnimatePresence>
 
       {/* Navigation bar fissa in basso */}
