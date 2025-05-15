@@ -18,7 +18,7 @@ const Navigation = () => {
     <motion.nav
       initial={{ y: 100 }}
       animate={{ y: 0 }}
-      className="navigation safe-area-bottom"
+      className="navigation"
       style={{
         position: 'fixed',
         bottom: 0,
@@ -27,10 +27,10 @@ const Navigation = () => {
         backgroundColor: '#1E1F25',
         borderTop: `1px solid ${theme.border}`,
         zIndex: 50,
-        paddingBottom: '24px', // Aumentato per dare spazio alla home indicator di iPhone
+        paddingBottom: 'calc(env(safe-area-inset-bottom) + 10px)',
         paddingTop: '10px',
         boxShadow: '0 -4px 15px rgba(0, 0, 0, 0.2)',
-        height: '85px' // Altezza fissa più grande per la barra
+        height: 'calc(85px + env(safe-area-inset-bottom))' // Altezza adattiva
       }}
     >
       <div
