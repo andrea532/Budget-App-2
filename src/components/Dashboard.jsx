@@ -725,11 +725,12 @@ const Dashboard = () => {
         </motion.div>
       )}
 
-      {/* Fixed Action Buttons */}
+     {/* Fixed Action Buttons */}
       <motion.div
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className="fixed-action-buttons"
         style={{
           position: 'fixed',
           bottom: 'calc(85px + env(safe-area-inset-bottom))',
