@@ -59,3 +59,13 @@ button {
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom);
 }
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top);
+  background-color: #121218;
+  z-index: 10000;
+}
