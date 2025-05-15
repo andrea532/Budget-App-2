@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 
-// Registra il service worker in modo semplice
-if ('serviceWorker' in navigator) {
+// Register service worker only if not in StackBlitz environment
+if ('serviceWorker' in navigator && !navigator.userAgent.includes('StackBlitz')) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/pwabuilder-sw.js')
       .then(registration => {
