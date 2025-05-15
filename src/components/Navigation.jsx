@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Home, Calendar, Receipt, BarChart3, Settings } from 'lucide-react';
 import { AppContext } from '../context/AppContext';
 
-const Navigation = () => {
+const Navigation = ({ isPWA }) => {
   const { currentView, setCurrentView, theme } = useContext(AppContext);
 
   const navItems = [
@@ -15,25 +15,28 @@ const Navigation = () => {
   ];
 
   return (
-    // Nel file Navigation.jsx, modifica il componente nav come segue:
-
-<motion.nav
-  initial={{ y: 100 }}
-  animate={{ y: 0 }}
-  className="navigation"
-  style={{
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#1E1F25',
-    borderTop: `1px solid ${theme.border}`,
-    zIndex: 1000, // Aumentato per essere sicuri che sia sopra tutto
-    paddingBottom: 'max(24px, env(safe-area-inset-bottom))', // Usa il valore più grande tra i due
-    paddingTop: '10px',
-    boxShadow: '0 -4px 15px rgba(0, 0, 0, 0.2)'
-  }}
->
+    <motion.nav
+      initial={{ y: 100 }}
+      animate={{ y: 0 }}
+      className={`navigation ${isPWA ? 'pwa-navigation' : ''}`}
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#1E1F25',
+        borderTop: `1px solid ${theme.border}`,
+        zIndex: 1000, // Aumentato per essere sicuri che sia sopra tutto
+        paddingBottom: isPWA 
+          ? 'max(24px, env(safe-area-inset-bottom))' // Usa max() per dispositivi con notch
+          : '10px',
+        paddingTop: '10px',
+        boxShadow: '0 -4px 15px rgba(0, 0, 0, 0.2)',
+        height: isPWA 
+          ? 'auto' // Altezza automatica basata sul contenuto
+          : '85px'  // Altezza fissa per browser normali
+      }}
+    >
       <div
         style={{
           display: 'flex',
