@@ -61,6 +61,44 @@ button {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* AGGIUNTO: Gestione fullscreen per iOS */
+@media all and (display-mode: standalone) or (display-mode: fullscreen) {
+  html {
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    margin: 0;
+  }
+  
+  body {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  #root {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* AGGIUNTO: Assicuriamo che anche la barra di stato sia nera quando l'app è a schermo intero */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top);
+    background-color: #121218;
+    z-index: 9999;
+  }
+}
+
 /* Gestione barra di stato iOS in modalità standalone */
 @media all and (display-mode: standalone) {
   :root {
