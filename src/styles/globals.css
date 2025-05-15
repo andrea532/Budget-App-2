@@ -17,8 +17,14 @@ body {
   background-color: #121218; /* Colore di base per assicurarsi che tutto lo sfondo sia scuro */
 }
 
+/* Fix per viewport su iOS */
+:root {
+  --vh: 1vh;  /* Sarà impostato via JavaScript */
+}
+
 #root {
   min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
   position: relative;
   overflow-x: hidden;
 }
@@ -28,10 +34,13 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
 }
 
 #root {
   height: 100%;
+  height: calc(var(--vh, 1vh) * 100);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -56,65 +65,73 @@ button {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Safe area for iPhones */
-.safe-area-bottom {
+/* Safe area per iOS */
+.ios-pwa-mode {
+  /* Usa --vh invece di vh per calcolare altezze corrette */
+  height: calc(var(--vh, 1vh) * 100);
+  
+  /* Assicurati che la safe area sia rispettata */
+  padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
-/* Gestione barra di stato iOS in modalità standalone */
-@media all and (display-mode: standalone) {
-  :root {
-    --safe-area-inset-top: env(safe-area-inset-top);
-    --safe-area-inset-bottom: env(safe-area-inset-bottom);
-  }
-  
-  body {
-    padding-top: var(--safe-area-inset-top);
-  }
-  
-  /* Questo crea uno sfondo esteso per la barra di stato */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--safe-area-inset-top);
-    background-color: #121218; /* Il colore del tuo tema */
-    z-index: 9999;
-  }
-  
-  /* Gestione specifica per i FAB e la navigazione in modalità standalone */
-  .navigation {
-    padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
-  }
-  
-  .fixed-action-buttons {
-    bottom: calc(85px + env(safe-area-inset-bottom)) !important;
-  }
-}
-/* Aggiungi queste regole al file globals.css */
-
-/* Fix specifico per PWA su iOS */
+/* Soluzione per PWA su iOS */
 @media all and (display-mode: standalone) {
   /* Per iPhone */
   @supports (-webkit-touch-callout: none) {
-    /* Fix per i pulsanti di azione fissa */
-    .fixed-action-buttons {
+    /* Fix per i pulsanti di azione fissa e la navigazione */
+    .pwa-action-buttons {
       bottom: 160px !important; /* Valore alto fisso */
       padding-bottom: 20px !important;
-    }
-    
-    /* Assicurati che la barra di navigazione sia sempre visibile e sopra */
-    .navigation {
-      height: 95px !important;
-      padding-bottom: calc(env(safe-area-inset-bottom) + 15px) !important;
       z-index: 1000 !important;
     }
     
-    /* Aggiungi padding extra al contenitore principale */
-    .app-container {
-      padding-bottom: 200px !important;
+    .pwa-navigation {
+      position: fixed !important;
+      bottom: 0 !important;
+      padding-bottom: env(safe-area-inset-bottom) !important;
+      z-index: 2000 !important;
+    }
+    
+    /* Spazio extra in fondo a tutti i contenitori */
+    .pwa-mode {
+      padding-bottom: calc(85px + env(safe-area-inset-bottom)) !important;
+    }
+    
+    /* Fix per lo scrolling */
+    .ios-pwa-mode #root {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Spazio extra in fondo */
+    .dashboard:after {
+      content: "";
+      display: block;
+      height: 200px;
     }
   }
+}
+
+/* Spazio per l'home indicator su iPhone X e successivi */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .navigation {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .fixed-action-buttons {
+    bottom: calc(85px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Spazio extra per modal e bottom sheet su iOS */
+.ios-pwa-mode [style*="position: fixed"][style*="bottom: 0"] {
+  bottom: env(safe-area-inset-bottom) !important;
 }
