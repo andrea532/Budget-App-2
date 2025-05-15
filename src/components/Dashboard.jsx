@@ -456,7 +456,7 @@ const Dashboard = () => {
       {/* Savings Overlay */}
       <SavingsOverlay isOpen={showSavingsOverlay} onClose={() => setShowSavingsOverlay(false)} />
 
-      
+      {/* Header con data, streak e saldo mensile */}
       {/* Header con data, streak e saldo mensile */}
 <motion.div 
   className="header"
@@ -736,7 +736,7 @@ const Dashboard = () => {
           left: '0',
           right: '0',
           padding: '0 16px',
-          zIndex: 1000
+          zIndex: 20
         }}
       >
         <div style={{ 
