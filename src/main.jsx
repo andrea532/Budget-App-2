@@ -2,8 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 
-// Register service worker only if not in StackBlitz environment
-if ('serviceWorker' in navigator && !navigator.userAgent.includes('StackBlitz')) {
+// Only register service worker in production and when not in StackBlitz
+if (
+  'serviceWorker' in navigator && 
+  !window.location.hostname.includes('stackblitz') && 
+  !navigator.userAgent.includes('StackBlitz') &&
+  import.meta.env.PROD
+) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/pwabuilder-sw.js')
       .then(registration => {
