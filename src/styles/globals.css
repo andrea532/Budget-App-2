@@ -14,6 +14,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
   touch-action: pan-y;
+  background-color: #121218; /* Colore di base per assicurarsi che tutto lo sfondo sia scuro */
 }
 
 #root {
@@ -59,13 +60,31 @@ button {
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom);
 }
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: env(safe-area-inset-top);
-  background-color: #121218;
-  z-index: 10000;
+
+/* Gestione barra di stato iOS in modalità standalone */
+@media all and (display-mode: standalone) {
+  :root {
+    --safe-area-inset-top: env(safe-area-inset-top);
+  }
+  
+  body {
+    padding-top: var(--safe-area-inset-top);
+  }
+  
+  /* Questo crea uno sfondo esteso per la barra di stato */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--safe-area-inset-top);
+    background-color: #121218; /* Il colore del tuo tema */
+    z-index: 9999;
+  }
+}
+
+/* Assicurati che anche la Navigation sia posizionata correttamente */
+.navigation {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 10px) !important;
 }
