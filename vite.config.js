@@ -14,7 +14,7 @@ export default defineConfig({
         description: 'Gestisci il tuo budget giornaliero',
         theme_color: '#4C6FFF',
         background_color: '#121218',
-        display: 'fullscreen', // MODIFICATO: da 'standalone' a 'fullscreen'
+        display: 'standalone',
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
@@ -68,6 +68,10 @@ export default defineConfig({
             purpose: 'any maskable'
           }
         ]
+      }
+    })
+  ]
+})
       }
     })
   ]
