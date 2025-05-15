@@ -1,9 +1,8 @@
 import { useContext } from 'react';
-import { motion } from 'framer-motion';
 import { Home, Calendar, Receipt, BarChart3, Settings } from 'lucide-react';
 import { AppContext } from '../context/AppContext';
 
-const Navigation = ({ isPWA }) => {
+const Navigation = () => {
   const { currentView, setCurrentView, theme } = useContext(AppContext);
 
   const navItems = [
@@ -15,10 +14,8 @@ const Navigation = ({ isPWA }) => {
   ];
 
   return (
-    <motion.nav
-      initial={{ y: 100 }}
-      animate={{ y: 0 }}
-      className={`navigation ${isPWA ? 'pwa-navigation' : ''}`}
+    <nav
+      className="navigation"
       style={{
         position: 'fixed',
         bottom: 0,
@@ -26,15 +23,10 @@ const Navigation = ({ isPWA }) => {
         right: 0,
         backgroundColor: '#1E1F25',
         borderTop: `1px solid ${theme.border}`,
-        zIndex: 1000, // Aumentato per essere sicuri che sia sopra tutto
-        paddingBottom: isPWA 
-          ? 'max(24px, env(safe-area-inset-bottom))' // Usa max() per dispositivi con notch
-          : '10px',
+        paddingBottom: 'calc(10px + env(safe-area-inset-bottom))',
         paddingTop: '10px',
         boxShadow: '0 -4px 15px rgba(0, 0, 0, 0.2)',
-        height: isPWA 
-          ? 'auto' // Altezza automatica basata sul contenuto
-          : '85px'  // Altezza fissa per browser normali
+        zIndex: 10000, // Z-index molto alto
       }}
     >
       <div
@@ -45,13 +37,11 @@ const Navigation = ({ isPWA }) => {
           padding: '0',
           maxWidth: '428px',
           margin: '0 auto',
-          height: '100%'
         }}
       >
         {navItems.map((item) => (
-          <motion.button
+          <button
             key={item.id}
-            whileTap={{ scale: 0.9 }}
             onClick={() => setCurrentView(item.id)}
             style={{
               background: 'none',
@@ -62,18 +52,9 @@ const Navigation = ({ isPWA }) => {
               justifyContent: 'center',
               color:
                 currentView === item.id ? theme.primary : theme.textSecondary,
-              transition: 'all 0.3s ease',
             }}
           >
-            <motion.div
-              animate={{
-                scale: currentView === item.id ? 1.2 : 1,
-                color:
-                  currentView === item.id
-                    ? theme.primary
-                    : theme.textSecondary,
-              }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            <div
               style={{
                 width: '46px',
                 height: '46px',
@@ -85,12 +66,12 @@ const Navigation = ({ isPWA }) => {
                 boxShadow: currentView === item.id ? '0 0 12px rgba(76, 111, 255, 0.2)' : 'none',
               }}
             >
-              <item.icon size={24} /> {/* Icona più grande */}
-            </motion.div>
-          </motion.button>
+              <item.icon size={24} />
+            </div>
+          </button>
         ))}
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 
