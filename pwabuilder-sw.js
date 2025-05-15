@@ -1,20 +1,36 @@
 // Service worker per Progressive Web App
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-const CACHE = "budget-app-cache-v1";
+// Aggiornata versione cache
+const CACHE = "budget-app-cache-v2";
 const offlineFallbackPage = "offline.html";
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
-
-// Installa e precache la pagina offline
-self.addEventListener('install', async (event) => {
+// Force aggiornamento e attivazione immediata 
+self.addEventListener("install", event => {
+  console.log('Installazione del service worker');
+  self.skipWaiting(); // Forza l'attivazione immediata
+  
   event.waitUntil(
     caches.open(CACHE)
       .then((cache) => cache.add(offlineFallbackPage))
+  );
+});
+
+self.addEventListener('activate', event => {
+  console.log('Service worker attivato');
+  
+  // Claim clients immediatamente
+  event.waitUntil(clients.claim());
+  
+  // Pulisci le vecchie cache
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames
+          .filter(cacheName => cacheName !== CACHE)
+          .map(cacheName => caches.delete(cacheName))
+      );
+    })
   );
 });
 
