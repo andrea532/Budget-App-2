@@ -93,3 +93,28 @@ button {
     bottom: calc(85px + env(safe-area-inset-bottom)) !important;
   }
 }
+/* Aggiungi queste regole al file globals.css */
+
+/* Fix specifico per PWA su iOS */
+@media all and (display-mode: standalone) {
+  /* Per iPhone */
+  @supports (-webkit-touch-callout: none) {
+    /* Fix per i pulsanti di azione fissa */
+    .fixed-action-buttons {
+      bottom: 160px !important; /* Valore alto fisso */
+      padding-bottom: 20px !important;
+    }
+    
+    /* Assicurati che la barra di navigazione sia sempre visibile e sopra */
+    .navigation {
+      height: 95px !important;
+      padding-bottom: calc(env(safe-area-inset-bottom) + 15px) !important;
+      z-index: 1000 !important;
+    }
+    
+    /* Aggiungi padding extra al contenitore principale */
+    .app-container {
+      padding-bottom: 200px !important;
+    }
+  }
+}
