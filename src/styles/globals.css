@@ -88,7 +88,3 @@ button {
 .navigation {
   padding-bottom: calc(env(safe-area-inset-bottom) + 10px) !important;
 }
-  .navigation {
-    padding-bottom: var(--safe-area-bottom);
-  }
-}
