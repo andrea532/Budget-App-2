@@ -2,16 +2,16 @@
   "name": "Daily Budget Manager",
   "short_name": "Budget App",
   "description": "Gestisci il tuo budget giornaliero in modo semplice ed efficace",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
   "display": "standalone",
   "background_color": "#121218",
-  "display_override": ["standalone", "fullscreen"],
   "theme_color": "#121218",
   "orientation": "portrait",
   "categories": ["finance", "productivity", "utilities"],
   "lang": "it-IT",
   "dir": "ltr",
   "prefer_related_applications": false,
+  "display_override": ["standalone", "fullscreen"],
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
