@@ -5,6 +5,7 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#121218",
+  "display_override": ["standalone", "fullscreen"],
   "theme_color": "#121218",
   "orientation": "portrait",
   "categories": ["finance", "productivity", "utilities"],
