@@ -434,13 +434,13 @@ const Dashboard = () => {
     }
   };
 
-  return (
+ return (
     <motion.div 
       className="dashboard"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       style={{ 
-        paddingBottom: '120px',
+        paddingBottom: 'calc(120px + env(safe-area-inset-bottom))',
         paddingTop: 'env(safe-area-inset-top)',
         background: `linear-gradient(160deg, #151620 0%, ${theme.background} 100%)`,
         minHeight: '100vh',
@@ -732,7 +732,7 @@ const Dashboard = () => {
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         style={{
           position: 'fixed',
-          bottom: '90px',
+          bottom: 'calc(85px + env(safe-area-inset-bottom))',
           left: '0',
           right: '0',
           padding: '0 16px',
