@@ -93,7 +93,7 @@ const AppContent = () => {
           transition={pageTransition}
           style={{
             height: '100%',
-            paddingBottom: '80px', // Spazio per la navigation bar
+            paddingBottom: 'calc(80px + env(safe-area-inset-bottom))', // Modificato per gestire la safe area
           }}
         >
           {renderView()}
@@ -114,5 +114,7 @@ function App() {
     </AppProvider>
   );
 }
+
+export default App;
 
 export default App;
