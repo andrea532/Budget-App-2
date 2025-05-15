@@ -56,37 +56,26 @@ button {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Safe area for iPhones */
-.safe-area-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-/* AGGIUNTO: Gestione fullscreen per iOS */
-@media all and (display-mode: standalone) or (display-mode: fullscreen) {
-  html {
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-    margin: 0;
-  }
-  
-  body {
-    position: fixed;
+/* Gestione schermo intero per iOS */
+@media all and (display-mode: standalone), (display-mode: fullscreen) {
+  html, body {
     height: 100%;
     width: 100%;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
   }
   
   #root {
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
     height: 100%;
     width: 100%;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    padding: 0;
+    margin: 0;
   }
   
-  /* AGGIUNTO: Assicuriamo che anche la barra di stato sia nera quando l'app è a schermo intero */
+  /* Crea uno sfondo nero per coprire completamente la status bar */
   body::before {
     content: "";
     position: fixed;
@@ -97,32 +86,85 @@ button {
     background-color: #121218;
     z-index: 9999;
   }
+  
+  /* Gestione della navigation bar */
+  .navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background-color: #1E1F25;
+    border-top: 1px solid #2A2B36;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    height: auto !important;
+  }
+  
+  /* Assicura che l'app container rispetti le safe areas */
+  .app-container {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: 80px !important; /* Spazio fisso per la navigation */
+  }
+  
+  /* Assicura che il contenuto non finisca sotto la navigation */
+  .dashboard, .transaction-history, .future-expenses-page, 
+  .stats-page, .settings-page, .income-setup, 
+  .expenses-setup, .savings-setup {
+    padding-bottom: 100px !important;
+  }
 }
 
-/* Gestione barra di stato iOS in modalità standalone */
-@media all and (display-mode: standalone) {
+/* Stile per la navigation bar */
+.navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: #1E1F25;
+  border-top: 1px solid #2A2B36;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
+  height: 85px;
+  padding-top: 10px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Supporto per notch e safe areas */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Aggiunge un fondo nero fisso per l'area dietro la notch */
+@supports (padding-top: env(safe-area-inset-top)) {
   :root {
-    --safe-area-inset-top: env(safe-area-inset-top);
+    --status-bar-height: env(safe-area-inset-top);
   }
   
-  body {
-    padding-top: var(--safe-area-inset-top);
-  }
-  
-  /* Questo crea uno sfondo esteso per la barra di stato */
-  body::before {
-    content: "";
+  body::after {
+    content: '';
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: var(--safe-area-inset-top);
-    background-color: #121218; /* Il colore del tuo tema */
-    z-index: 9999;
+    height: var(--status-bar-height);
+    background-color: #000000;
+    z-index: 10000;
   }
 }
 
-/* Assicurati che anche la Navigation sia posizionata correttamente */
-.navigation {
-  padding-bottom: calc(env(safe-area-inset-bottom) + 10px) !important;
+/* Stile per dispositivi con "the notch" */
+@supports (padding: max(0px)) {
+  body {
+    --safe-area-top: max(var(--status-bar-height), env(safe-area-inset-top));
+    --safe-area-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  
+  .navigation {
+    padding-bottom: var(--safe-area-bottom);
+  }
 }
