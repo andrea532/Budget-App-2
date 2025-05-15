@@ -65,6 +65,7 @@ button {
 @media all and (display-mode: standalone) {
   :root {
     --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
   }
   
   body {
@@ -82,9 +83,13 @@ button {
     background-color: #121218; /* Il colore del tuo tema */
     z-index: 9999;
   }
-}
-
-/* Assicurati che anche la Navigation sia posizionata correttamente */
-.navigation {
-  padding-bottom: calc(env(safe-area-inset-bottom) + 10px) !important;
+  
+  /* Gestione specifica per i FAB e la navigazione in modalità standalone */
+  .navigation {
+    padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
+  }
+  
+  .fixed-action-buttons {
+    bottom: calc(85px + env(safe-area-inset-bottom)) !important;
+  }
 }
