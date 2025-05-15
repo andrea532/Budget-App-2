@@ -79,7 +79,10 @@ const AppContent = () => {
         minHeight: '100vh',
         position: 'relative',
         overflow: 'hidden',
-        paddingTop: 'env(safe-area-inset-top)' // Aggiunta questa riga per gestire la safe area
+        paddingTop: 'env(safe-area-inset-top)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        paddingLeft: 'env(safe-area-inset-left)',
+        paddingRight: 'env(safe-area-inset-right)'
       }}
     >
       {/* Contenitore principale con animazioni per le transizioni tra pagine */}
@@ -111,11 +114,6 @@ function App() {
   return (
     <AppProvider>
       <AppContent />
-    </AppProvider>
-  );
-}
-
-export default App;
     </AppProvider>
   );
 }
